@@ -113,9 +113,10 @@
 #include <trace/events/skb.h>
 #include <net/busy_poll.h>
 #include "udp_impl.h"
-/* START_OF_KNOX_NPA */
+
+/* START_OF_KNOX_NPA
 #include <net/ncm.h>
-/* END_OF_KNOX_NPA */
+END_OF_KNOX_NPA */
 
 struct udp_table udp_table __read_mostly;
 EXPORT_SYMBOL(udp_table);
@@ -1809,19 +1810,19 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 	if (sk) {
 		struct dst_entry *dst = skb_dst(skb);
 		int ret;
-		/* START_OF_KNOX_NPA */
+		/* START_OF_KNOX_NPA
 		struct nf_conn *ct = NULL;
 		enum ip_conntrack_info ctinfo;
 		struct nf_conntrack_tuple *tuple = NULL;
 		char srcaddr[INET6_ADDRSTRLEN_NAP];
 		char dstaddr[INET6_ADDRSTRLEN_NAP];
-		// KNOX NPA - END
+		KNOX NPA - END */
 
 		if (unlikely(sk->sk_rx_dst != dst))
 			udp_sk_rx_dst_set(sk, dst);
 
-		/* START_OF_KNOX_NPA */
-		/* function to handle open flows with incoming udp packets */
+		/* START_OF_KNOX_NPA
+		function to handle open flows with incoming udp packets
 		if (check_ncm_flag()) {
 			if ( (skb) && (sk) && (sk->sk_protocol == IPPROTO_UDP) ) {
 				ct = nf_ct_get(skb, &ctinfo);
@@ -1833,20 +1834,20 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 						if ( !isIpv4AddressEqualsNull(srcaddr, dstaddr) ) {
 							atomic_set(&ct->startFlow, 1);
 							if ( check_intermediate_flag() ) {
-								/* Use 'atomic_set(&ct->intermediateFlow, 1); ct->npa_timeout = ((u32)(jiffies)) + (get_intermediate_timeout() * HZ);' if struct nf_conn->timeout is of type u32; */
+								Use 'atomic_set(&ct->intermediateFlow, 1); ct->npa_timeout = ((u32)(jiffies)) + (get_intermediate_timeout() * HZ);' if struct nf_conn->timeout is of type u32;
 								unsigned long timeout = ct->timeout.expires - jiffies;
 								if ( (timeout > 0) && ((timeout/HZ) > 5) ) {
 									atomic_set(&ct->intermediateFlow, 1);
 									ct->npa_timeout.expires = (jiffies) + (get_intermediate_timeout() * HZ);
 									add_timer(&ct->npa_timeout);
 								}
-								/* Use 'unsigned long timeout = ct->timeout.expires - jiffies;
+								Use 'unsigned long timeout = ct->timeout.expires - jiffies;
 										if ( (timeout > 0) && ((timeout/HZ) > 5) ) {
 											atomic_set(&ct->intermediateFlow, 1);
 											ct->npa_timeout.expires = (jiffies) + (get_intermediate_timeout() * HZ);
 											add_timer(&ct->npa_timeout);
 										}'
-								if struct nf_conn->timeout is of type struct timer_list; */
+								if struct nf_conn->timeout is of type struct timer_list;
 							}
 							ct->knox_uid = sk->knox_uid;
 							ct->knox_pid = sk->knox_pid;
@@ -1871,7 +1872,7 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 				}
 			}
 		}
-		/* END_OF_KNOX_NPA */
+		END_OF_KNOX_NPA */
 
 		ret = udp_queue_rcv_skb(sk, skb);
 		sock_put(sk);
@@ -1890,20 +1891,20 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 	sk = __udp4_lib_lookup_skb(skb, uh->source, uh->dest, udptable);
 	if (sk) {
 		int ret;
-		/* START_OF_KNOX_NPA */
+		/* START_OF_KNOX_NPA
 		struct nf_conn *ct = NULL;
 		enum ip_conntrack_info ctinfo;
 		struct nf_conntrack_tuple *tuple = NULL;
 		char srcaddr[INET6_ADDRSTRLEN_NAP];
 		char dstaddr[INET6_ADDRSTRLEN_NAP];
-		// KNOX NPA - END
+		KNOX NPA - END */
 
 		if (inet_get_convert_csum(sk) && uh->check && !IS_UDPLITE(sk))
 			skb_checksum_try_convert(skb, IPPROTO_UDP, uh->check,
 						 inet_compute_pseudo);
 
-		/* START_OF_KNOX_NPA */
-		/* function to handle open flows with incoming udp packets */
+		/* START_OF_KNOX_NPA
+		function to handle open flows with incoming udp packets
 		if (check_ncm_flag()) {
 			if ( (skb) && (sk) && (sk->sk_protocol == IPPROTO_UDP) ) {
 				ct = nf_ct_get(skb, &ctinfo);
@@ -1915,20 +1916,20 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 						if ( !isIpv4AddressEqualsNull(srcaddr, dstaddr) ) {
 							atomic_set(&ct->startFlow, 1);
 							if ( check_intermediate_flag() ) {
-								/* Use 'atomic_set(&ct->intermediateFlow, 1); ct->npa_timeout = ((u32)(jiffies)) + (get_intermediate_timeout() * HZ);' if struct nf_conn->timeout is of type u32; */
+								Use 'atomic_set(&ct->intermediateFlow, 1); ct->npa_timeout = ((u32)(jiffies)) + (get_intermediate_timeout() * HZ);' if struct nf_conn->timeout is of type u32;
 								unsigned long timeout = ct->timeout.expires - jiffies;
 								if ( (timeout > 0) && ((timeout/HZ) > 5) ) {
 									atomic_set(&ct->intermediateFlow, 1);
 									ct->npa_timeout.expires = (jiffies) + (get_intermediate_timeout() * HZ);
 									add_timer(&ct->npa_timeout);
 								}
-								/* Use 'unsigned long timeout = ct->timeout.expires - jiffies;
+								Use 'unsigned long timeout = ct->timeout.expires - jiffies;
 										if ( (timeout > 0) && ((timeout/HZ) > 5) ) {
 											atomic_set(&ct->intermediateFlow, 1);
 											ct->npa_timeout.expires = (jiffies) + (get_intermediate_timeout() * HZ);
 											add_timer(&ct->npa_timeout);
 										}'
-								if struct nf_conn->timeout is of type struct timer_list; */
+								if struct nf_conn->timeout is of type struct timer_list;
 							}
 							ct->knox_uid = sk->knox_uid;
 							ct->knox_pid = sk->knox_pid;
@@ -1953,7 +1954,7 @@ int __udp4_lib_rcv(struct sk_buff *skb, struct udp_table *udptable,
 				}
 			}
 		}
-		/* END_OF_KNOX_NPA */
+		END_OF_KNOX_NPA */
 
 		ret = udp_queue_rcv_skb(sk, skb);
 		sock_put(sk);
