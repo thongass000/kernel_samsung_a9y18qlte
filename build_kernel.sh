@@ -7,7 +7,7 @@
 
 # Logs
 echo "Removing previous kernel build logs..."
-LOGGER=kernel-logs.txt
+LOGGER=build_kernel.log
 REALLOGGER="$(pwd)"/${LOGGER}
 rm -rf $REALLOGGER
 
