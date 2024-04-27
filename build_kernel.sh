@@ -50,7 +50,7 @@ if [ "$KSU" == "CONFIG_KSU=y" ]; then
 	cd drivers
 	rm -rf kernelsu &>> $REALLOGGER
 	cd ..
-	git clone https://github.com/riarumoda/KernelSU-4.4 &>> $REALLOGGER
+	git clone https://github.com/riarumoda/KernelSU-4.4 KernelSU &>> $REALLOGGER
 	cd drivers
 	ln -sf ../KernelSU/kernel kernelsu &>> $REALLOGGER
 	cd ..
