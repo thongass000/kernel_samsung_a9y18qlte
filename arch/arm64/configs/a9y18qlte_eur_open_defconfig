@@ -63,6 +63,12 @@ CONFIG_AUDIT_WATCH=y
 CONFIG_AUDIT_TREE=y
 
 #
+# KernelSU support
+#
+# CONFIG_KSU is not set
+# CONFIG_KSU_DEBUG is not set
+
+#
 # IRQ subsystem
 #
 CONFIG_GENERIC_IRQ_PROBE=y
