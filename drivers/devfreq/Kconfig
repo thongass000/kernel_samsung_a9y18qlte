@@ -230,6 +230,12 @@ config QCOM_DEVFREQ_DEVBW
 	  agnostic interface to so that some of the devfreq governors can be
 	  shared across SoCs.
 
+config SIMPLE_GPU_ALGORITHM
+	bool "Simple GPU algorithm"
+	depends on DEVFREQ_GOV_QCOM_ADRENO_TZ
+	help
+		Simple user configurable GPU controlling algorithm
+
 config SPDM_SCM
 	bool "QCOM SPDM SCM based call support"
 	depends on DEVFREQ_SPDM
