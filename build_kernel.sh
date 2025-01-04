@@ -4,6 +4,7 @@
 # Here is the dependencies to build the kernel
 # Ubuntu/Ubuntu Based OS: apt update && apt upgrade && apt install glibc-source libghc-libyaml-dev libyaml-dev binutils-aarch64-linux-gnu binutils-arm-linux-gnueabi binutils device-tree-compiler libtfm-dev libelf-dev cpio kmod nano bc bison ca-certificates curl flex gcc git libc6-dev libssl-dev openssl python-is-python3 ssh wget zip zstd sudo make clang gcc-arm-linux-gnueabi software-properties-common build-essential libarchive-tools gcc-aarch64-linux-gnu python2
 # Arch/Arch Based OS: sudo pacman -S aarch64-linux-gnu-glibc glibc libyaml aarch64-linux-gnu-binutils arm-none-eabi-binutils binutils dtc fmt libelf cpio kmod bc bison ca-certificates curl flex glibc openssl openssh wget zip zstd make clang aarch64-linux-gnu-gcc arm-none-eabi-gcc archivetools base-devel python git
+# Fedora/Fedora Based OS: sudo dnf install glibc libyaml binutils dtc fmt cpio akmod kmod bc bison ca-certificates curl flex openssl openssl-devel openssl-devel-engine openssh wget zip zstd make clang python git arm-none-eabi-gcc-cs gcc-aarch64-linux-gnu arm-none-eabi-binutils-cs binutils-aarch64-linux-gnu cross-binutils-common cross-gcc-common gmp-c++ gmp-devel isl libmpc-devel mpfr-devel
 
 # Logs
 echo "Removing previous kernel build logs..."
