@@ -74,6 +74,11 @@ CONFIG_AUDIT_TREE=y
 CONFIG_SIMPLE_GPU_ALGORITHM=y
 
 #
+# BORE (Burst-Oriented Response Enhancer) CPU Scheduler
+#
+CONFIG_SCHED_BORE=y
+
+#
 # IRQ subsystem
 #
 CONFIG_GENERIC_IRQ_PROBE=y
