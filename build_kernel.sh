@@ -91,4 +91,4 @@ make -j$CPUCORE ARCH=arm64 O=out SUBARCH=arm64 O=out \
 
 # Copy logs to out
 echo "Copying logs to out directory..."
-cp ./$REALLOGGER out/arch/arm64/boot
+cp $REALLOGGER out/arch/arm64/boot
