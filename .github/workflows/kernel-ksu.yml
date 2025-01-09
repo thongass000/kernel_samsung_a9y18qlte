@@ -1,0 +1,39 @@
+name: Build Riaru Kernel - KSU
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    # 1. Checkout the code
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # 2. Set up deps
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y glibc-source libghc-libyaml-dev libyaml-dev binutils-aarch64-linux-gnu \
+        binutils-arm-linux-gnueabi binutils device-tree-compiler libtfm-dev libelf-dev cpio kmod nano bc \
+        bison ca-certificates curl flex gcc git libc6-dev libssl-dev openssl python-is-python3 ssh wget \
+        zip zstd sudo make clang gcc-arm-linux-gnueabi software-properties-common build-essential \
+        libarchive-tools gcc-aarch64-linux-gnu python2
+
+    # 3. Run build script
+    - name: Run Build Script
+      run: bash ./build_kernel.sh --ksu
+
+    # 4. Upload build artifacts
+    - name: Upload Built Kernel
+      uses: actions/upload-artifact@v3
+      with:
+        name: kernel-ksu
+        path: out/arch/arm64/boot/
