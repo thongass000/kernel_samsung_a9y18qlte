@@ -1,4 +1,4 @@
-name: Build Riaru Kernel - KSU
+name: Build Riaru Kernel
 
 on:
   push:
@@ -29,11 +29,11 @@ jobs:
 
     # 3. Run build script
     - name: Run Build Script
-      run: bash ./build_kernel.sh --ksu
+      run: bash ./build_kernel.sh
 
     # 4. Upload build artifacts
     - name: Upload Built Kernel
       uses: actions/upload-artifact@v4
       with:
-        name: kernel-ksu
+        name: kernel
         path: out/arch/arm64/boot/

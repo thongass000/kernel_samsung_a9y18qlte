@@ -74,10 +74,11 @@ mkdir out
 rm -rf error.log
 
 # Compile
+CPUCORE=$(nproc --all)
 echo "Compiling the kernel..."
-make -j16 O=out clean &>> $REALLOGGER
-make -j16 O=out $DEFCONFIG &>> $REALLOGGER
-make -j16 ARCH=arm64 O=out SUBARCH=arm64 O=out \
+make -j$CPUCORE O=out clean &>> $REALLOGGER
+make -j$CPUCORE O=out $DEFCONFIG &>> $REALLOGGER
+make -j$CPUCORE ARCH=arm64 O=out SUBARCH=arm64 O=out \
         CC=${REALLOSGCC_DIR}/bin/aarch64-linux-android-gcc \
         LD=${REALLOSGCC_DIR}/bin/aarch64-linux-android-ld.bfd \
         AR=${REALLOSGCC_DIR}/bin/aarch64-linux-android-ar \
@@ -87,3 +88,7 @@ make -j16 ARCH=arm64 O=out SUBARCH=arm64 O=out \
         OBJDUMP=${REALLOSGCC_DIR}/bin/aarch64-linux-android-objdump \
         STRIP=${REALLOSGCC_DIR}/bin/aarch64-linux-android-strip \
         CROSS_COMPILE=${REALLOSGCC_DIR}/bin/aarch64-linux-android- &>> $REALLOGGER
+
+# Copy logs to out
+echo "Copying logs to out directory..."
+cp ./$REALLOGGER out/arch/arm64/boot
