@@ -2233,25 +2233,33 @@ static int check_nnp_nosuid(const struct linux_binprm *bprm,
 			    const struct task_security_struct *old_tsec,
 			    const struct task_security_struct *new_tsec)
 {
-	static u32 ksu_sid;
-	char *secdata;
+	#ifdef CONFIG_KSU
+		static u32 ksu_sid;
+		char *secdata;
+	#endif
 	int nnp = (bprm->unsafe & LSM_UNSAFE_NO_NEW_PRIVS);
 	int nosuid = (bprm->file->f_path.mnt->mnt_flags & MNT_NOSUID);
-	int rc,error;
-	u32 seclen;
+	#ifdef CONFIG_KSU
+		int rc,error;
+		u32 seclen;
+	#else
+		int rc;
+	#endif
 
-	if(!ksu_sid){
-		security_secctx_to_secid("u:r:su:s0", strlen("u:r:su:s0"),
-						&ksu_sid);
-	}
-	error = security_secid_to_secctx(old_tsec->sid, &secdata, &seclen);
-	if (!error) {
-		rc = strcmp("u:r:init:s0",secdata);
-		security_release_secctx(secdata, seclen);
-		if(rc == 0 && new_tsec->sid == ksu_sid){
-			return 0;
+	#ifdef CONFIG_KSU
+		if(!ksu_sid){
+			security_secctx_to_secid("u:r:su:s0", strlen("u:r:su:s0"),
+									 &ksu_sid);
 		}
-	}
+		error = security_secid_to_secctx(old_tsec->sid, &secdata, &seclen);
+		if (!error) {
+			rc = strcmp("u:r:init:s0",secdata);
+			security_release_secctx(secdata, seclen);
+			if(rc == 0 && new_tsec->sid == ksu_sid){
+				return 0;
+			}
+		}
+	#endif
 	if (!nnp && !nosuid)
 		return 0; /* neither NNP nor nosuid */
 
