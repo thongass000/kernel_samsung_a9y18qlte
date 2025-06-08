@@ -51,14 +51,13 @@ if [ "$KSU" == "--ksu" ]; then
 	cd drivers
 	rm -rf kernelsu &>> $REALLOGGER
 	cd ..
-	git clone https://github.com/rsuntk/KernelSU KernelSU &>> $REALLOGGER
+	git clone https://github.com/rifsxd/KernelSU-Next KernelSU &>> $REALLOGGER
 	cd drivers
 	ln -sf ../KernelSU/kernel kernelsu &>> $REALLOGGER
 	cd ..
 	sed -i '/source "drivers\/security\/samsung\/icdrv\/Kconfig"/a source "drivers\/kernelsu\/Kconfig"' drivers/Kconfig
 	sed -i 's/# CONFIG_KSU is not set/CONFIG_KSU=y/' arch/arm64/configs/$DEFCONFIG
 	sed -i 's/# CONFIG_KSU_DEBUG is not set/CONFIG_KSU_DEBUG=y/' arch/arm64/configs/$DEFCONFIG
-	sed -i 's/# CONFIG_KSU_MANUAL_HOOK is not set/CONFIG_KSU_MANUAL_HOOK=y/' arch/arm64/configs/$DEFCONFIG
 else
 	echo "KernelSU support is disabled, skipping..."
 	rm -rf KernelSU &>> $REALLOGGER

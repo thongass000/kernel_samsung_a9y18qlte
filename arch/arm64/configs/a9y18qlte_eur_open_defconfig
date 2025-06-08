@@ -67,7 +67,6 @@ CONFIG_AUDIT_TREE=y
 #
 # CONFIG_KSU is not set
 # CONFIG_KSU_DEBUG is not set
-# CONFIG_KSU_MANUAL_HOOK is not set
 
 #
 # Simple GPU algorithm
